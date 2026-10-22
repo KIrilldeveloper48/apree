@@ -18,7 +18,7 @@
 ## Стек
 
 - frontend: TypeScript, Next.js App Router, React, Material UI и Zod;
-- backend: TypeScript, NestJS, Swagger, \`class-validator\`;
+- backend: TypeScript, NestJS, Swagger, `class-validator`;
 - данные: PostgreSQL, Prisma и SQL-миграции;
 - локальная инфраструктура: Docker Compose только для PostgreSQL;
 - качество: ESLint, Prettier и Vitest.
@@ -31,54 +31,54 @@
 
 Проверка версий:
 
-\`\`\`powershell
+```powershell
 node --version
 npm --version
 docker compose version
-\`\`\`
+```
 
 ## Быстрый запуск
 
 1. Установите зависимости:
 
-   \`\`\`powershell
+   ```powershell
    npm install
-   \`\`\`
+   ```
 
 2. Создайте локальный файл окружения:
 
-   \`\`\`powershell
+   ```powershell
    Copy-Item .env.example .env
-   \`\`\`
+   ```
 
 3. Запустите PostgreSQL:
 
-   \`\`\`powershell
+   ```powershell
    docker compose up -d db
-   \`\`\`
+   ```
 
 4. Примените миграции и сгенерируйте Prisma Client:
 
-   \`\`\`powershell
+   ```powershell
    npm run db:migrate:deploy
    npm run db:generate
-   \`\`\`
+   ```
 
 5. В двух отдельных терминалах запустите API и web-клиент:
 
-   \`\`\`powershell
+   ```powershell
    npm run dev:api
-   \`\`\`
+   ```
 
-   \`\`\`powershell
+   ```powershell
    npm run dev:web
-   \`\`\`
+   ```
 
-   Если PowerShell запрещает выполнение скриптов npm, используйте \`npm.cmd\`
-   вместо \`npm\`.
+   Если PowerShell запрещает выполнение скриптов npm, используйте `npm.cmd`
+   вместо `npm`.
 
-Откройте \`http://localhost:3000\`. API доступен по \`http://localhost:3001/api\`,
-а Swagger — по \`http://localhost:3001/api/docs\`.
+Откройте `http://localhost:3000`. API доступен по `http://localhost:3001/api`,
+а Swagger — по `http://localhost:3001/api/docs`.
 
 ## Ручная приёмка
 
@@ -100,71 +100,72 @@ docker compose version
 
 ## API задач
 
-| Метод      | Путь                      | Назначение                                 |
-| ---------- | ------------------------- | ------------------------------------------ |
-| \`POST\`   | \`/api/tasks\`            | Создать задачу.                            |
-| \`GET\`    | \`/api/tasks\`            | Получить список задач.                     |
-| \`GET\`    | \`/api/tasks/:id\`        | Получить задачу.                           |
-| \`PATCH\`  | \`/api/tasks/:id\`        | Изменить название, описание или приоритет. |
-| \`PATCH\`  | \`/api/tasks/:id/status\` | Изменить статус задачи.                    |
-| \`DELETE\` | \`/api/tasks/:id\`        | Удалить задачу.                            |
+| Метод    | Путь                    | Назначение                                 |
+| -------- | ----------------------- | ------------------------------------------ |
+| `POST`   | `/api/tasks`            | Создать задачу.                            |
+| `GET`    | `/api/tasks`            | Получить список задач.                     |
+| `GET`    | `/api/tasks/:id`        | Получить задачу.                           |
+| `PATCH`  | `/api/tasks/:id`        | Изменить название, описание или приоритет. |
+| `PATCH`  | `/api/tasks/:id/status` | Изменить статус задачи.                    |
+| `DELETE` | `/api/tasks/:id`        | Удалить задачу.                            |
 
-Статусы: \`NEW\`, \`IN_PROGRESS\`, \`DONE\`. Приоритеты: \`LOW\`, \`MEDIUM\`, \`HIGH\`.
+Статусы: `NEW`, `IN_PROGRESS`, `DONE`. Приоритеты: `LOW`, `MEDIUM`, `HIGH`.
 Входные HTTP-данные валидируются Nest DTO, а ответы API и данные форм повторно
 проверяются на frontend runtime-схемами.
 
 ## Команды качества
 
-\`\`\`powershell
+```powershell
 npm run format:check
 npm run lint
 npm run test
 npm run typecheck
 npm run build
-\`\`\`
+```
 
-\`npm run test\` покрывает валидацию DTO, helpers доменной и frontend-логики,
-контроллер API, клиент API, группировку карточек и ключевые UI-состояния.
+`npm run test` покрывает core-логику backend: валидацию DTO, чистые helpers
+нормализации и обновления задачи, а также ключевые маршруты API. Frontend
+проверяется ручными сценариями из раздела «Ручная приёмка».
 
 ## Prisma и локальная БД
 
-Схема Prisma находится в \`prisma/schema.prisma\`, миграции — в
-\`prisma/migrations\`. Для создания новой development-миграции:
+Схема Prisma находится в `prisma/schema.prisma`, миграции — в
+`prisma/migrations`. Для создания новой development-миграции:
 
-\`\`\`powershell
+```powershell
 npm run db:migrate -- --name describe_change
-\`\`\`
+```
 
 Не редактируйте уже применённые миграции. Для остановки БД без удаления данных:
 
-\`\`\`powershell
+```powershell
 docker compose down
-\`\`\`
+```
 
 Полное удаление контейнера и локального тома (необратимо):
 
-\`\`\`powershell
+```powershell
 docker compose down --volumes
-\`\`\`
+```
 
 ## Переменные окружения
 
-| Переменная                   | Назначение                         |
-| ---------------------------- | ---------------------------------- |
-| \`POSTGRES_DB\`              | Имя локальной базы.                |
-| \`POSTGRES_USER\`            | Пользователь PostgreSQL.           |
-| \`POSTGRES_PASSWORD\`        | Пароль локального пользователя.    |
-| \`POSTGRES_PORT\`            | Порт PostgreSQL на хосте.          |
-| \`DATABASE_URL\`             | Строка подключения Prisma.         |
-| \`API_PORT\`                 | Порт API; по умолчанию \`3001\`.   |
-| \`NEXT_PUBLIC_API_BASE_URL\` | Базовый URL REST API для frontend. |
+| Переменная                 | Назначение                         |
+| -------------------------- | ---------------------------------- |
+| `POSTGRES_DB`              | Имя локальной базы.                |
+| `POSTGRES_USER`            | Пользователь PostgreSQL.           |
+| `POSTGRES_PASSWORD`        | Пароль локального пользователя.    |
+| `POSTGRES_PORT`            | Порт PostgreSQL на хосте.          |
+| `DATABASE_URL`             | Строка подключения Prisma.         |
+| `API_PORT`                 | Порт API; по умолчанию `3001`.     |
+| `NEXT_PUBLIC_API_BASE_URL` | Базовый URL REST API для frontend. |
 
-\`.env\` не хранится в Git; для локальной разработки используется безопасный
-шаблон \`.env.example\`.
+`.env` не хранится в Git; для локальной разработки используется безопасный
+шаблон `.env.example`.
 
 ## Решения и ограничения
 
-- PostgreSQL — единственный источник истины. \`localStorage\` не используется для
+- PostgreSQL — единственный источник истины. `localStorage` не используется для
   постоянных данных, поэтому обновление страницы читает актуальное состояние из
   API.
 - Docker отвечает только за повторяемую PostgreSQL. API и frontend запускаются
@@ -184,7 +185,7 @@ docker compose down --volumes
 AI помог с подготовкой структуры проекта, реализацией повторяющихся частей
 frontend/API, тестов и документации. Результат проверялся ESLint, Prettier,
 TypeScript, Vitest, production-сборкой и ручными сценариями из раздела выше.
-Все изменения дополнительно проверялись на соответствие правилам \`AGENTS.md\`.
+Все изменения дополнительно проверялись на соответствие правилам `AGENTS.md`.
 
 Оценка затраченного времени: около 5 часов, включая настройку окружения,
 миграции, API, UI, тесты и документацию.
