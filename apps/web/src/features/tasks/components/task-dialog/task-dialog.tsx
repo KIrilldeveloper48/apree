@@ -1,6 +1,5 @@
 'use client';
 
-import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -21,9 +20,15 @@ import { taskStatusSchema } from '../../api/schemas/task-status.schema';
 import type { TCreateTaskInput } from '../../api/types/create-task-input.types';
 
 import { createTaskFormValues } from './helpers/create-task-form-values.helpers';
+import { getTaskFormValidationMessages } from './helpers/get-task-form-validation-messages.helpers';
 import type { ITaskDialogProps } from './types/task-dialog-props.types';
+import type { TTaskFormValidationMessages } from './types/task-form-validation-messages.types';
 
 const taskFormId = 'task-form';
+const emptyTaskFormValidationMessages: TTaskFormValidationMessages = {
+  title: null,
+  description: null,
+};
 
 export function TaskDialog({
   initialStatus,
@@ -35,15 +40,19 @@ export function TaskDialog({
   const [values, setValues] = useState<TCreateTaskInput>(() =>
     createTaskFormValues(task, initialStatus),
   );
-  const [validationMessage, setValidationMessage] = useState<string | null>(null);
+  const [validationMessages, setValidationMessages] = useState<TTaskFormValidationMessages>(
+    emptyTaskFormValidationMessages,
+  );
   const isEditing = task !== null;
 
   function handleTitleChange(title: string) {
     setValues((currentValues) => ({ ...currentValues, title }));
+    setValidationMessages((currentMessages) => ({ ...currentMessages, title: null }));
   }
 
   function handleDescriptionChange(description: string) {
     setValues((currentValues) => ({ ...currentValues, description }));
+    setValidationMessages((currentMessages) => ({ ...currentMessages, description: null }));
   }
 
   function handlePriorityChange(event: SelectChangeEvent) {
@@ -69,11 +78,11 @@ export function TaskDialog({
     const parsedValues = createTaskInputSchema.safeParse(values);
 
     if (!parsedValues.success) {
-      setValidationMessage(parsedValues.error.issues[0]?.message ?? 'Проверьте заполненные поля.');
+      setValidationMessages(getTaskFormValidationMessages(parsedValues.error.issues));
       return;
     }
 
-    setValidationMessage(null);
+    setValidationMessages(emptyTaskFormValidationMessages);
 
     try {
       await onSubmit(parsedValues.data);
@@ -109,10 +118,11 @@ export function TaskDialog({
               ? 'Измените данные задачи и сохраните изменения.'
               : 'Заполните данные, чтобы добавить задачу на доску.'}
           </p>
-          {validationMessage !== null ? <Alert severity="error">{validationMessage}</Alert> : null}
           <TextField
             autoFocus
             disabled={isSubmitting}
+            error={validationMessages.title !== null}
+            helperText={validationMessages.title}
             label="Название"
             onChange={(event) => handleTitleChange(event.target.value)}
             required
@@ -121,6 +131,8 @@ export function TaskDialog({
           />
           <TextField
             disabled={isSubmitting}
+            error={validationMessages.description !== null}
+            helperText={validationMessages.description}
             label="Описание"
             minRows={4}
             multiline
