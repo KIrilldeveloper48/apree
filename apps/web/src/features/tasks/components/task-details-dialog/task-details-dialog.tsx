@@ -1,3 +1,4 @@
+import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Dialog from '@mui/material/Dialog';
@@ -7,10 +8,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Divider from '@mui/material/Divider';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { type SelectChangeEvent } from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
 import { taskStatusSchema } from '../../api/task-status.schema';
@@ -51,11 +52,18 @@ export function TaskDetailsDialog({
 
   return (
     <Dialog fullWidth maxWidth="md" onClose={onClose} open>
-      <DialogTitle component="div">
+      <DialogTitle component="div" sx={{ position: 'relative', pr: 7 }}>
+        <IconButton
+          aria-label="Закрыть просмотр задачи"
+          onClick={onClose}
+          sx={{ position: 'absolute', right: 8, top: 8 }}
+        >
+          <CloseIcon />
+        </IconButton>
         <Stack
           direction={{ xs: 'column', sm: 'row' }}
           spacing={2}
-          sx={{ alignItems: { sm: 'flex-start' }, justifyContent: 'space-between' }}
+          sx={{ alignItems: { xs: 'flex-start', sm: 'center' }, justifyContent: 'space-between' }}
         >
           <Stack spacing={1}>
             <Typography component="h1" variant="h4">
@@ -63,7 +71,7 @@ export function TaskDetailsDialog({
             </Typography>
             <Chip
               color={priority.color}
-              label={`Приоритет: ${priority.label}`}
+              label={`${priority.label}`}
               size="small"
               sx={{ alignSelf: 'flex-start' }}
             />
@@ -91,14 +99,9 @@ export function TaskDetailsDialog({
             <Typography component="h2" variant="subtitle1">
               Описание
             </Typography>
-            <TextField
-              aria-label="Описание задачи"
-              fullWidth
-              multiline
-              minRows={5}
-              slotProps={{ input: { readOnly: true } }}
-              value={task.description}
-            />
+            <Typography component="p" sx={{ whiteSpace: 'pre-wrap' }} variant="body1">
+              {task.description}
+            </Typography>
           </Stack>
           <Typography color="text.secondary" variant="body2">
             Создано {createdAtLabel}
@@ -106,9 +109,6 @@ export function TaskDetailsDialog({
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} type="button">
-          Закрыть
-        </Button>
         <Button disabled={isMutating} onClick={onEdit} type="button" variant="contained">
           Редактировать
         </Button>
