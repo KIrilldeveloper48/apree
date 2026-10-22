@@ -3,8 +3,8 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import type { ITaskColumnProps } from './task-column-props.types';
-import { TaskCard } from './task-card';
+import type { ITaskColumnProps } from './types/task-column-props.types';
+import { TaskCard } from '../task-card/task-card';
 
 export function TaskColumn({ title, tasks, onOpenTask }: ITaskColumnProps) {
   const headingId = `task-column-${title}`;

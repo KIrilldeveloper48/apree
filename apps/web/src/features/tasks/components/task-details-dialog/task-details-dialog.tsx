@@ -7,11 +7,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import type { TTaskStatus } from '../api/task-status.types';
+import type { TTaskStatus } from '../../api/task-status.types';
 
-import { getTaskPriorityPresentation } from './get-task-priority-presentation.helpers';
-import { getTaskStatusPresentation } from './get-task-status-presentation.helpers';
-import type { ITaskDetailsDialogProps } from './task-details-dialog-props.types';
+import { getTaskPriorityPresentation } from '../task-card/helpers/get-task-priority-presentation.helpers';
+import { getTaskStatusPresentation } from './helpers/get-task-status-presentation.helpers';
+import type { ITaskDetailsDialogProps } from './types/task-details-dialog-props.types';
 
 export function TaskDetailsDialog({
   task,

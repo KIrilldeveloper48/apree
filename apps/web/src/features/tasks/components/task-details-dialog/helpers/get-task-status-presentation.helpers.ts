@@ -1,6 +1,6 @@
-import type { TTaskStatus } from '../api/task-status.types';
+import type { TTaskStatus } from '../../../api/task-status.types';
 
-import type { TTaskStatusPresentation } from './task-status-presentation.types';
+import type { TTaskStatusPresentation } from '../types/task-status-presentation.types';
 
 export function getTaskStatusPresentation(status: TTaskStatus): TTaskStatusPresentation {
   switch (status) {

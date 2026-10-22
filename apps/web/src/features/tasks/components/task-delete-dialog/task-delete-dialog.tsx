@@ -5,7 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-import type { ITaskDeleteDialogProps } from './task-delete-dialog-props.types';
+import type { ITaskDeleteDialogProps } from './types/task-delete-dialog-props.types';
 
 export function TaskDeleteDialog({
   taskTitle,

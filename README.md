@@ -23,6 +23,26 @@
 - локальная инфраструктура: Docker Compose только для PostgreSQL;
 - качество: ESLint, Prettier и Vitest.
 
+## Структура frontend
+
+Проект использует облегчённую feature-oriented структуру: задача изолирована в
+`apps/web/src/features/tasks`, а не смешана с кодом страницы.
+
+```text
+features/tasks/
+├── api/         # runtime-схемы, типы и REST-клиент
+├── model/       # hooks и чистая логика списка задач
+├── components/  # составные компоненты, каждый в собственной папке
+│   └── task-card/
+│       ├── helpers/
+│       ├── types/
+│       └── task-card.tsx
+└── ui/          # небольшие переиспользуемые UI-состояния
+```
+
+NestJS-модуль задачи находится отдельно в `apps/api/src/tasks`: DTO, helpers,
+controller, service и его core-проверки сгруппированы по назначению.
+
 ## Требования
 
 - Node.js 22+;

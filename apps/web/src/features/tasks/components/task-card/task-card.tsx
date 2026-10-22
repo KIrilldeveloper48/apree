@@ -6,8 +6,8 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { getTaskPriorityPresentation } from './get-task-priority-presentation.helpers';
-import type { ITaskCardProps } from './task-card-props.types';
+import { getTaskPriorityPresentation } from './helpers/get-task-priority-presentation.helpers';
+import type { ITaskCardProps } from './types/task-card-props.types';
 
 export function TaskCard({ task, onOpenTask }: ITaskCardProps) {
   const priority = getTaskPriorityPresentation(task.priority);

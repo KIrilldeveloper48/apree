@@ -15,12 +15,12 @@ import TextField from '@mui/material/TextField';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import { useState } from 'react';
 
-import { createTaskInputSchema } from '../api/create-task-input.schema';
-import type { TCreateTaskInput } from '../api/create-task-input.types';
-import { taskPrioritySchema } from '../api/task-priority.schema';
+import { createTaskInputSchema } from '../../api/create-task-input.schema';
+import type { TCreateTaskInput } from '../../api/create-task-input.types';
+import { taskPrioritySchema } from '../../api/task-priority.schema';
 
-import { createTaskFormValues } from './create-task-form-values.helpers';
-import type { ITaskDialogProps } from './task-dialog-props.types';
+import { createTaskFormValues } from './helpers/create-task-form-values.helpers';
+import type { ITaskDialogProps } from './types/task-dialog-props.types';
 
 const taskFormId = 'task-form';
 

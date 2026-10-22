@@ -6,18 +6,18 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 
-import type { TCreateTaskInput } from '../api/create-task-input.types';
-import type { TTask } from '../api/task.types';
-import type { TTaskStatus } from '../api/task-status.types';
-import { useTasks } from '../model/use-tasks';
+import type { TCreateTaskInput } from '../../api/create-task-input.types';
+import type { TTask } from '../../api/task.types';
+import type { TTaskStatus } from '../../api/task-status.types';
+import { useTasks } from '../../model/use-tasks';
 
-import { TaskBoard } from './task-board';
-import { BoardEmptyState } from './board-empty-state';
-import { BoardErrorAlert } from './board-error-alert';
-import { BoardLoadingState } from './board-loading-state';
-import { TaskDeleteDialog } from './task-delete-dialog';
-import { TaskDetailsDialog } from './task-details-dialog';
-import { TaskDialog } from './task-dialog';
+import { TaskBoard } from '../task-board/task-board';
+import { TaskDeleteDialog } from '../task-delete-dialog/task-delete-dialog';
+import { TaskDetailsDialog } from '../task-details-dialog/task-details-dialog';
+import { TaskDialog } from '../task-dialog/task-dialog';
+import { BoardEmptyState } from '../../ui/board-empty-state/board-empty-state';
+import { BoardErrorAlert } from '../../ui/board-error-alert/board-error-alert';
+import { BoardLoadingState } from '../../ui/board-loading-state/board-loading-state';
 
 export function TasksBoard() {
   const {

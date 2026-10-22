@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 
-import type { ITaskBoardProps } from './task-board-props.types';
-import { TaskColumn } from './task-column';
+import type { ITaskBoardProps } from './types/task-board-props.types';
+import { TaskColumn } from '../task-column/task-column';
 
 export function TaskBoard({ tasksByStatus, onOpenTask }: ITaskBoardProps) {
   return (

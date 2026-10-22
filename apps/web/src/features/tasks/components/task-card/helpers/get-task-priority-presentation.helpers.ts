@@ -1,6 +1,6 @@
-import type { TTaskPriority } from '../api/task-priority.types';
+import type { TTaskPriority } from '../../../api/task-priority.types';
 
-import type { TTaskPriorityPresentation } from './task-priority-presentation.types';
+import type { TTaskPriorityPresentation } from '../types/task-priority-presentation.types';
 
 export function getTaskPriorityPresentation(priority: TTaskPriority): TTaskPriorityPresentation {
   switch (priority) {

@@ -1,7 +1,7 @@
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 
-import type { IBoardErrorAlertProps } from './board-error-alert-props.types';
+import type { IBoardErrorAlertProps } from './types/board-error-alert-props.types';
 
 export function BoardErrorAlert({ message, isRetrying, onRetry }: IBoardErrorAlertProps) {
   return (
