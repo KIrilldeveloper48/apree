@@ -1,3 +1,4 @@
+import { useDroppable } from '@dnd-kit/core';
 import AddIcon from '@mui/icons-material/Add';
 import Badge from '@mui/material/Badge';
 import Button from '@mui/material/Button';
@@ -9,7 +10,7 @@ import type { ITaskColumnProps } from './types/task-column-props.types';
 import { TaskCard } from '../task-card/task-card';
 
 export function TaskColumn({
-  isCreating,
+  isMutating,
   onCreateTask,
   title,
   status,
@@ -17,14 +18,19 @@ export function TaskColumn({
   onOpenTask,
 }: ITaskColumnProps) {
   const headingId = `task-column-${title}`;
+  const { isOver, setNodeRef } = useDroppable({
+    id: status,
+    disabled: isMutating,
+  });
 
   return (
     <Paper
       aria-labelledby={headingId}
       component="section"
       elevation={0}
+      ref={setNodeRef}
       sx={{
-        backgroundColor: 'background.paper',
+        backgroundColor: isOver ? 'action.hover' : 'background.paper',
         border: 1,
         borderColor: 'divider',
         minHeight: 240,
@@ -40,11 +46,16 @@ export function TaskColumn({
         </Stack>
         <Stack spacing={1.5}>
           {tasks.map((task) => (
-            <TaskCard key={task.id} onOpenTask={onOpenTask} task={task} />
+            <TaskCard
+              isDragDisabled={isMutating}
+              key={task.id}
+              onOpenTask={onOpenTask}
+              task={task}
+            />
           ))}
           <Button
             aria-label={`Создать задачу в колонке «${title}»`}
-            disabled={isCreating}
+            disabled={isMutating}
             onClick={() => onCreateTask(status)}
             sx={{
               borderColor: 'divider',

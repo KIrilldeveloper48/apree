@@ -87,9 +87,13 @@ export function TasksBoard() {
       throw new Error('Невозможно изменить статус невыбранной задачи.');
     }
 
-    const updatedTask = await updateStatus(selectedTask.id, { status });
+    const updatedTask = await handleMoveTaskStatus(selectedTask.id, status);
 
     setSelectedTask(updatedTask);
+  }
+
+  async function handleMoveTaskStatus(taskId: string, status: TTaskStatus): Promise<TTask> {
+    return updateStatus(taskId, { status });
   }
 
   async function handleDeleteTask(): Promise<void> {
@@ -138,7 +142,8 @@ export function TasksBoard() {
             />
           ) : (
             <TaskBoard
-              isCreating={isMutating}
+              isMutating={isMutating}
+              onChangeTaskStatus={handleMoveTaskStatus}
               onCreateTask={handleOpenCreateTask}
               onOpenTask={handleOpenTask}
               tasksByStatus={tasksByStatus}

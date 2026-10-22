@@ -1,3 +1,4 @@
+import { useDraggable } from '@dnd-kit/core';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
@@ -8,12 +9,29 @@ import Typography from '@mui/material/Typography';
 import { getTaskPriorityPresentation } from './helpers/get-task-priority-presentation.helpers';
 import type { ITaskCardProps } from './types/task-card-props.types';
 
-export function TaskCard({ task, onOpenTask }: ITaskCardProps) {
+export function TaskCard({ isDragDisabled, task, onOpenTask }: ITaskCardProps) {
   const priority = getTaskPriorityPresentation(task.priority);
+  const { attributes, isDragging, listeners, setNodeRef, transform } = useDraggable({
+    id: task.id,
+    disabled: isDragDisabled,
+  });
+  const transformStyle =
+    transform === null ? undefined : `translate3d(${transform.x}px, ${transform.y}px, 0)`;
 
   return (
-    <Card component="article" variant="outlined">
+    <Card
+      component="article"
+      ref={setNodeRef}
+      sx={{
+        opacity: isDragging ? 0.4 : 1,
+        transform: transformStyle,
+        transition: 'opacity 150ms ease, transform 150ms ease',
+      }}
+      variant="outlined"
+    >
       <CardActionArea
+        {...attributes}
+        {...listeners}
         aria-label={`Открыть задачу «${task.title}»`}
         onClick={() => onOpenTask(task)}
       >
