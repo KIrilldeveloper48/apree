@@ -7,3 +7,4 @@ coverage/
 !.env.example
 *.tsbuildinfo
 npm-debug.log*
+apps/api/src/generated/prisma/

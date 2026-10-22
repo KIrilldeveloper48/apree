@@ -12,9 +12,14 @@
   ],
   "scripts": {
     "dev:web": "npm run dev --workspace=@apree/web",
-    "dev:api": "npm run dev --workspace=@apree/api",
+    "dev:api": "npm run db:generate && npm run dev --workspace=@apree/api",
+    "prebuild": "npm run db:generate",
     "build": "npm run build --workspaces --if-present",
+    "pretypecheck": "npm run db:generate",
     "typecheck": "npm run typecheck --workspaces --if-present",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier . --write",
@@ -27,6 +32,7 @@
     "eslint-config-next": "^16.4.2",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.9.10",
+    "prisma": "^7.10.0",
     "typescript": "^5.7.3",
     "vitest": "^5.0.5"
   }
