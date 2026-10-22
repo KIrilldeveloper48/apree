@@ -1,7 +1,7 @@
-import { IsEnum, IsString, Matches, MaxLength, MinLength } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsEnum, IsOptional, IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-import { TaskPriority } from '../../generated/prisma/enums';
+import { TaskPriority, TaskStatus } from '../../generated/prisma/enums';
 import { TASK_DESCRIPTION_MAX_LENGTH, TASK_TITLE_MAX_LENGTH } from '../task.constants';
 
 export class CreateTaskDto {
@@ -22,4 +22,9 @@ export class CreateTaskDto {
   @ApiProperty({ enum: TaskPriority, example: TaskPriority.HIGH })
   @IsEnum(TaskPriority)
   readonly priority: TaskPriority | undefined = undefined;
+
+  @ApiPropertyOptional({ enum: TaskStatus, example: TaskStatus.NEW })
+  @IsOptional()
+  @IsEnum(TaskStatus)
+  readonly status?: TaskStatus;
 }

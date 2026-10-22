@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 
+import { TaskStatus } from '../generated/prisma/enums';
 import { PrismaService } from '../prisma/prisma.service';
 
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -22,6 +23,7 @@ export class TasksService {
         title: normalizeTaskText(input.title),
         description: normalizeTaskText(input.description),
         priority: input.priority,
+        status: input.status ?? TaskStatus.NEW,
       },
     });
   }

@@ -3,7 +3,12 @@ import Box from '@mui/material/Box';
 import type { ITaskBoardProps } from './types/task-board-props.types';
 import { TaskColumn } from '../task-column/task-column';
 
-export function TaskBoard({ tasksByStatus, onOpenTask }: ITaskBoardProps) {
+export function TaskBoard({
+  isCreating,
+  tasksByStatus,
+  onCreateTask,
+  onOpenTask,
+}: ITaskBoardProps) {
   return (
     <Box
       aria-label="Доска задач"
@@ -17,9 +22,30 @@ export function TaskBoard({ tasksByStatus, onOpenTask }: ITaskBoardProps) {
         },
       }}
     >
-      <TaskColumn onOpenTask={onOpenTask} tasks={tasksByStatus.NEW} title="Новая" />
-      <TaskColumn onOpenTask={onOpenTask} tasks={tasksByStatus.IN_PROGRESS} title="В работе" />
-      <TaskColumn onOpenTask={onOpenTask} tasks={tasksByStatus.DONE} title="Готово" />
+      <TaskColumn
+        isCreating={isCreating}
+        onCreateTask={onCreateTask}
+        onOpenTask={onOpenTask}
+        status="NEW"
+        tasks={tasksByStatus.NEW}
+        title="Новая"
+      />
+      <TaskColumn
+        isCreating={isCreating}
+        onCreateTask={onCreateTask}
+        onOpenTask={onOpenTask}
+        status="IN_PROGRESS"
+        tasks={tasksByStatus.IN_PROGRESS}
+        title="В работе"
+      />
+      <TaskColumn
+        isCreating={isCreating}
+        onCreateTask={onCreateTask}
+        onOpenTask={onOpenTask}
+        status="DONE"
+        tasks={tasksByStatus.DONE}
+        title="Готово"
+      />
     </Box>
   );
 }

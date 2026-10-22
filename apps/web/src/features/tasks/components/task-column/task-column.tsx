@@ -1,4 +1,6 @@
+import AddIcon from '@mui/icons-material/Add';
 import Badge from '@mui/material/Badge';
+import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -6,7 +8,14 @@ import Typography from '@mui/material/Typography';
 import type { ITaskColumnProps } from './types/task-column-props.types';
 import { TaskCard } from '../task-card/task-card';
 
-export function TaskColumn({ title, tasks, onOpenTask }: ITaskColumnProps) {
+export function TaskColumn({
+  isCreating,
+  onCreateTask,
+  title,
+  status,
+  tasks,
+  onOpenTask,
+}: ITaskColumnProps) {
   const headingId = `task-column-${title}`;
 
   return (
@@ -33,6 +42,23 @@ export function TaskColumn({ title, tasks, onOpenTask }: ITaskColumnProps) {
           {tasks.map((task) => (
             <TaskCard key={task.id} onOpenTask={onOpenTask} task={task} />
           ))}
+          <Button
+            aria-label={`Создать задачу в колонке «${title}»`}
+            disabled={isCreating}
+            onClick={() => onCreateTask(status)}
+            sx={{
+              borderColor: 'divider',
+              borderStyle: 'dashed',
+              color: 'text.secondary',
+              minHeight: 36,
+              opacity: 0.65,
+              '&:hover': { backgroundColor: 'action.hover', opacity: 1 },
+            }}
+            type="button"
+            variant="outlined"
+          >
+            <AddIcon />
+          </Button>
         </Stack>
       </Stack>
     </Paper>

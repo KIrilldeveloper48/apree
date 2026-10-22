@@ -18,14 +18,23 @@ import { useState } from 'react';
 import { createTaskInputSchema } from '../../api/create-task-input.schema';
 import type { TCreateTaskInput } from '../../api/create-task-input.types';
 import { taskPrioritySchema } from '../../api/task-priority.schema';
+import { taskStatusSchema } from '../../api/task-status.schema';
 
 import { createTaskFormValues } from './helpers/create-task-form-values.helpers';
 import type { ITaskDialogProps } from './types/task-dialog-props.types';
 
 const taskFormId = 'task-form';
 
-export function TaskDialog({ task, isSubmitting, onClose, onSubmit }: ITaskDialogProps) {
-  const [values, setValues] = useState<TCreateTaskInput>(() => createTaskFormValues(task));
+export function TaskDialog({
+  initialStatus,
+  task,
+  isSubmitting,
+  onClose,
+  onSubmit,
+}: ITaskDialogProps) {
+  const [values, setValues] = useState<TCreateTaskInput>(() =>
+    createTaskFormValues(task, initialStatus),
+  );
   const [validationMessage, setValidationMessage] = useState<string | null>(null);
   const isEditing = task !== null;
 
@@ -45,6 +54,14 @@ export function TaskDialog({ task, isSubmitting, onClose, onSubmit }: ITaskDialo
         ...currentValues,
         priority: parsedPriority.data,
       }));
+    }
+  }
+
+  function handleStatusChange(event: SelectChangeEvent) {
+    const parsedStatus = taskStatusSchema.safeParse(event.target.value);
+
+    if (parsedStatus.success) {
+      setValues((currentValues) => ({ ...currentValues, status: parsedStatus.data }));
     }
   }
 
@@ -126,6 +143,22 @@ export function TaskDialog({ task, isSubmitting, onClose, onSubmit }: ITaskDialo
               <MenuItem value="HIGH">Высокий</MenuItem>
             </Select>
           </FormControl>
+          {!isEditing ? (
+            <FormControl fullWidth required>
+              <InputLabel id="task-status-label">Колонка</InputLabel>
+              <Select
+                disabled={isSubmitting}
+                label="Колонка"
+                labelId="task-status-label"
+                onChange={handleStatusChange}
+                value={values.status}
+              >
+                <MenuItem value="NEW">Новая</MenuItem>
+                <MenuItem value="IN_PROGRESS">В работе</MenuItem>
+                <MenuItem value="DONE">Готово</MenuItem>
+              </Select>
+            </FormControl>
+          ) : null}
         </Stack>
       </DialogContent>
       <DialogActions>

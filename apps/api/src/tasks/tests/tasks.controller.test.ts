@@ -26,7 +26,7 @@ describe('TasksController', () => {
     title: 'Подготовить релиз',
     description: 'Проверить API и миграции.',
     priority: TaskPriority.HIGH,
-    status: TaskStatus.NEW,
+    status: TaskStatus.IN_PROGRESS,
     createdAt: new Date('2026-10-22T12:00:00.000Z'),
     updatedAt: new Date('2026-10-22T12:00:00.000Z'),
   };
@@ -59,17 +59,19 @@ describe('TasksController', () => {
         title: 'Подготовить релиз',
         description: 'Проверить API и миграции.',
         priority: TaskPriority.HIGH,
+        status: TaskStatus.IN_PROGRESS,
       })
       .expect(201);
 
     expect(response.body).toMatchObject({
       id: taskId,
-      status: TaskStatus.NEW,
+      status: TaskStatus.IN_PROGRESS,
     });
     expect(tasksService.create).toHaveBeenCalledWith({
       title: 'Подготовить релиз',
       description: 'Проверить API и миграции.',
       priority: TaskPriority.HIGH,
+      status: TaskStatus.IN_PROGRESS,
     });
   });
 

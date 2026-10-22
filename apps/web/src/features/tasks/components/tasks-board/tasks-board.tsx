@@ -33,6 +33,7 @@ export function TasksBoard() {
     updateStatus,
   } = useTasks();
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [createTaskStatus, setCreateTaskStatus] = useState<TTaskStatus>('NEW');
   const [selectedTask, setSelectedTask] = useState<TTask | null>(null);
   const [isEditingTask, setIsEditingTask] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -40,6 +41,11 @@ export function TasksBoard() {
 
   function handleOpenTask(task: TTask) {
     setSelectedTask(task);
+  }
+
+  function handleOpenCreateTask(status: TTaskStatus) {
+    setCreateTaskStatus(status);
+    setIsCreateDialogOpen(true);
   }
 
   function handleCloseTask() {
@@ -114,7 +120,7 @@ export function TasksBoard() {
             </Stack>
             <Button
               disabled={isMutating}
-              onClick={() => setIsCreateDialogOpen(true)}
+              onClick={() => handleOpenCreateTask('NEW')}
               variant="contained"
             >
               Новая задача
@@ -128,15 +134,21 @@ export function TasksBoard() {
           ) : isBoardEmpty ? (
             <BoardEmptyState
               isCreating={isMutating}
-              onCreateTask={() => setIsCreateDialogOpen(true)}
+              onCreateTask={() => handleOpenCreateTask('NEW')}
             />
           ) : (
-            <TaskBoard onOpenTask={handleOpenTask} tasksByStatus={tasksByStatus} />
+            <TaskBoard
+              isCreating={isMutating}
+              onCreateTask={handleOpenCreateTask}
+              onOpenTask={handleOpenTask}
+              tasksByStatus={tasksByStatus}
+            />
           )}
         </Stack>
       </Container>
       {isCreateDialogOpen ? (
         <TaskDialog
+          initialStatus={createTaskStatus}
           isSubmitting={isMutating}
           onClose={() => setIsCreateDialogOpen(false)}
           onSubmit={handleCreateTask}
@@ -163,6 +175,7 @@ export function TasksBoard() {
       ) : null}
       {selectedTask !== null && isEditingTask ? (
         <TaskDialog
+          initialStatus={selectedTask.status}
           isSubmitting={isMutating}
           onClose={handleCloseTask}
           onSubmit={handleUpdateTask}
