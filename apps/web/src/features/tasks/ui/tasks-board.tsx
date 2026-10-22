@@ -11,17 +11,29 @@ import { useState } from 'react';
 
 import type { TCreateTaskInput } from '../api/create-task-input.types';
 import type { TTask } from '../api/task.types';
+import type { TTaskStatus } from '../api/task-status.types';
 import { useTasks } from '../model/use-tasks';
 
 import { TaskBoard } from './task-board';
+import { TaskDeleteDialog } from './task-delete-dialog';
 import { TaskDetailsDialog } from './task-details-dialog';
 import { TaskDialog } from './task-dialog';
 
 export function TasksBoard() {
-  const { create, errorMessage, isLoading, isMutating, tasksByStatus, update } = useTasks();
+  const {
+    create,
+    errorMessage,
+    isLoading,
+    isMutating,
+    remove,
+    tasksByStatus,
+    update,
+    updateStatus,
+  } = useTasks();
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<TTask | null>(null);
   const [isEditingTask, setIsEditingTask] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   function handleOpenTask(task: TTask) {
     setSelectedTask(task);
@@ -30,10 +42,19 @@ export function TasksBoard() {
   function handleCloseTask() {
     setSelectedTask(null);
     setIsEditingTask(false);
+    setIsDeleteDialogOpen(false);
   }
 
   function handleEditTask() {
     setIsEditingTask(true);
+  }
+
+  function handleRequestDelete() {
+    setIsDeleteDialogOpen(true);
+  }
+
+  function handleCloseDeleteDialog() {
+    setIsDeleteDialogOpen(false);
   }
 
   async function handleCreateTask(input: TCreateTaskInput): Promise<TTask> {
@@ -50,6 +71,25 @@ export function TasksBoard() {
     setSelectedTask(updatedTask);
 
     return updatedTask;
+  }
+
+  async function handleChangeTaskStatus(status: TTaskStatus): Promise<void> {
+    if (selectedTask === null) {
+      throw new Error('Невозможно изменить статус невыбранной задачи.');
+    }
+
+    const updatedTask = await updateStatus(selectedTask.id, { status });
+
+    setSelectedTask(updatedTask);
+  }
+
+  async function handleDeleteTask(): Promise<void> {
+    if (selectedTask === null) {
+      throw new Error('Невозможно удалить невыбранную задачу.');
+    }
+
+    await remove(selectedTask.id);
+    handleCloseTask();
   }
 
   return (
@@ -98,9 +138,19 @@ export function TasksBoard() {
       {selectedTask !== null && !isEditingTask ? (
         <TaskDetailsDialog
           isMutating={isMutating}
+          onChangeStatus={handleChangeTaskStatus}
           onClose={handleCloseTask}
           onEdit={handleEditTask}
+          onRequestDelete={handleRequestDelete}
           task={selectedTask}
+        />
+      ) : null}
+      {selectedTask !== null && isDeleteDialogOpen ? (
+        <TaskDeleteDialog
+          isDeleting={isMutating}
+          onClose={handleCloseDeleteDialog}
+          onConfirm={handleDeleteTask}
+          taskTitle={selectedTask.title}
         />
       ) : null}
       {selectedTask !== null && isEditingTask ? (
