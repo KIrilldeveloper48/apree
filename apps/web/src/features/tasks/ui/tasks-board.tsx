@@ -1,9 +1,6 @@
 'use client';
 
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -15,6 +12,9 @@ import type { TTaskStatus } from '../api/task-status.types';
 import { useTasks } from '../model/use-tasks';
 
 import { TaskBoard } from './task-board';
+import { BoardEmptyState } from './board-empty-state';
+import { BoardErrorAlert } from './board-error-alert';
+import { BoardLoadingState } from './board-loading-state';
 import { TaskDeleteDialog } from './task-delete-dialog';
 import { TaskDetailsDialog } from './task-details-dialog';
 import { TaskDialog } from './task-dialog';
@@ -26,6 +26,8 @@ export function TasksBoard() {
     isLoading,
     isMutating,
     remove,
+    reload,
+    tasks,
     tasksByStatus,
     update,
     updateStatus,
@@ -34,6 +36,7 @@ export function TasksBoard() {
   const [selectedTask, setSelectedTask] = useState<TTask | null>(null);
   const [isEditingTask, setIsEditingTask] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const isBoardEmpty = tasks.length === 0;
 
   function handleOpenTask(task: TTask) {
     setSelectedTask(task);
@@ -117,11 +120,16 @@ export function TasksBoard() {
               Новая задача
             </Button>
           </Stack>
-          {errorMessage !== null ? <Alert severity="error">{errorMessage}</Alert> : null}
+          {errorMessage !== null ? (
+            <BoardErrorAlert isRetrying={isLoading} message={errorMessage} onRetry={reload} />
+          ) : null}
           {isLoading ? (
-            <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
-              <CircularProgress aria-label="Загрузка задач" />
-            </Box>
+            <BoardLoadingState />
+          ) : isBoardEmpty ? (
+            <BoardEmptyState
+              isCreating={isMutating}
+              onCreateTask={() => setIsCreateDialogOpen(true)}
+            />
           ) : (
             <TaskBoard onOpenTask={handleOpenTask} tasksByStatus={tasksByStatus} />
           )}
