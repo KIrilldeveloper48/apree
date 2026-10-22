@@ -1,0 +1,25 @@
+import Box from '@mui/material/Box';
+
+import type { ITaskBoardProps } from './task-board-props.types';
+import { TaskColumn } from './task-column';
+
+export function TaskBoard({ tasksByStatus }: ITaskBoardProps) {
+  return (
+    <Box
+      aria-label="Доска задач"
+      component="section"
+      sx={{
+        display: 'grid',
+        gap: 2,
+        gridTemplateColumns: {
+          xs: 'minmax(0, 1fr)',
+          md: 'repeat(3, minmax(0, 1fr))',
+        },
+      }}
+    >
+      <TaskColumn tasks={tasksByStatus.NEW} title="Новая" />
+      <TaskColumn tasks={tasksByStatus.IN_PROGRESS} title="В работе" />
+      <TaskColumn tasks={tasksByStatus.DONE} title="Готово" />
+    </Box>
+  );
+}

@@ -8,3 +8,4 @@ coverage/
 *.tsbuildinfo
 npm-debug.log*
 apps/api/src/generated/prisma/
+apps/web/next-env.d.ts
