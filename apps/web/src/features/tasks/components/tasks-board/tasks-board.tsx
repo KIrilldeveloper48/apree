@@ -1,14 +1,18 @@
 'use client';
 
+import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import type { TCreateTaskInput } from '../../api/create-task-input.types';
 import type { TTask } from '../../api/task.types';
+import type { TTaskPriority } from '../../api/task-priority.types';
 import type { TTaskStatus } from '../../api/task-status.types';
+import { filterTasks } from '../../model/filter-tasks.helpers';
+import { groupTasksByStatus } from '../../model/group-tasks-by-status.helpers';
 import { useTasks } from '../../model/use-tasks';
 
 import { TaskBoard } from '../task-board/task-board';
@@ -18,6 +22,7 @@ import { TaskDialog } from '../task-dialog/task-dialog';
 import { BoardEmptyState } from '../../ui/board-empty-state/board-empty-state';
 import { BoardErrorAlert } from '../../ui/board-error-alert/board-error-alert';
 import { BoardLoadingState } from '../../ui/board-loading-state/board-loading-state';
+import { TasksFilterBar } from '../../ui/tasks-filter-bar/tasks-filter-bar';
 
 export function TasksBoard() {
   const {
@@ -28,7 +33,6 @@ export function TasksBoard() {
     remove,
     reload,
     tasks,
-    tasksByStatus,
     update,
     updateStatus,
   } = useTasks();
@@ -37,7 +41,16 @@ export function TasksBoard() {
   const [selectedTask, setSelectedTask] = useState<TTask | null>(null);
   const [isEditingTask, setIsEditingTask] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [priorityFilter, setPriorityFilter] = useState<TTaskPriority | null>(null);
   const isBoardEmpty = tasks.length === 0;
+  const filteredTasks = useMemo(
+    () => filterTasks(tasks, searchQuery, priorityFilter),
+    [priorityFilter, searchQuery, tasks],
+  );
+  const filteredTasksByStatus = useMemo(() => groupTasksByStatus(filteredTasks), [filteredTasks]);
+  const isFiltering = searchQuery.trim().length > 0 || priorityFilter !== null;
+  const isFilteredTasksEmpty = !isBoardEmpty && filteredTasks.length === 0;
 
   function handleOpenTask(task: TTask) {
     setSelectedTask(task);
@@ -46,6 +59,11 @@ export function TasksBoard() {
   function handleOpenCreateTask(status: TTaskStatus) {
     setCreateTaskStatus(status);
     setIsCreateDialogOpen(true);
+  }
+
+  function handleClearFilters() {
+    setSearchQuery('');
+    setPriorityFilter(null);
   }
 
   function handleCloseTask() {
@@ -133,6 +151,16 @@ export function TasksBoard() {
           {errorMessage !== null ? (
             <BoardErrorAlert isRetrying={isLoading} message={errorMessage} onRetry={reload} />
           ) : null}
+          {!isLoading && !isBoardEmpty ? (
+            <TasksFilterBar
+              isFiltering={isFiltering}
+              onClear={handleClearFilters}
+              onPriorityChange={setPriorityFilter}
+              onSearchQueryChange={setSearchQuery}
+              priority={priorityFilter}
+              searchQuery={searchQuery}
+            />
+          ) : null}
           {isLoading ? (
             <BoardLoadingState />
           ) : isBoardEmpty ? (
@@ -141,13 +169,18 @@ export function TasksBoard() {
               onCreateTask={() => handleOpenCreateTask('NEW')}
             />
           ) : (
-            <TaskBoard
-              isMutating={isMutating}
-              onChangeTaskStatus={handleMoveTaskStatus}
-              onCreateTask={handleOpenCreateTask}
-              onOpenTask={handleOpenTask}
-              tasksByStatus={tasksByStatus}
-            />
+            <>
+              {isFilteredTasksEmpty ? (
+                <Alert severity="info">По заданным фильтрам задач не найдено.</Alert>
+              ) : null}
+              <TaskBoard
+                isMutating={isMutating}
+                onChangeTaskStatus={handleMoveTaskStatus}
+                onCreateTask={handleOpenCreateTask}
+                onOpenTask={handleOpenTask}
+                tasksByStatus={filteredTasksByStatus}
+              />
+            </>
           )}
         </Stack>
       </Container>
