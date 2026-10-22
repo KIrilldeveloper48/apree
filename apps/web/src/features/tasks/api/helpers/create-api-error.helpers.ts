@@ -1,5 +1,5 @@
-import { apiErrorResponseSchema } from './api-error-response.schema';
-import { ApiError } from './api-error';
+import { ApiError } from '../errors/api-error';
+import { apiErrorResponseSchema } from '../schemas/api-error-response.schema';
 
 export async function createApiError(response: Response): Promise<ApiError> {
   const payload = await response.json().catch(() => undefined);

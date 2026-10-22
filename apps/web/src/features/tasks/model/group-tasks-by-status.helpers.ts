@@ -1,4 +1,4 @@
-import type { TTask } from '../api/task.types';
+import type { TTask } from '../api/types/task.types';
 
 import type { TTasksByStatus } from './tasks-by-status.types';
 

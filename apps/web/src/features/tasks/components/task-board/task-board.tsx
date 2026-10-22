@@ -11,7 +11,7 @@ import {
 } from '@dnd-kit/core';
 import Box from '@mui/material/Box';
 
-import { taskStatusSchema } from '../../api/task-status.schema';
+import { taskStatusSchema } from '../../api/schemas/task-status.schema';
 
 import type { ITaskBoardProps } from './types/task-board-props.types';
 import { TaskColumn } from '../task-column/task-column';

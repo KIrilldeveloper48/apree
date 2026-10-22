@@ -14,8 +14,8 @@ import Select, { type SelectChangeEvent } from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { taskStatusSchema } from '../../api/task-status.schema';
-import type { TTaskStatus } from '../../api/task-status.types';
+import { taskStatusSchema } from '../../api/schemas/task-status.schema';
+import type { TTaskStatus } from '../../api/types/task-status.types';
 
 import { getTaskPriorityPresentation } from '../task-card/helpers/get-task-priority-presentation.helpers';
 import { getTaskCreatedAtLabel } from './helpers/get-task-created-at-label.helpers';

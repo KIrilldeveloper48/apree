@@ -5,8 +5,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TaskPriority, TaskStatus } from '../../generated/prisma/enums';
 import { configureApiApplication } from '../../config/configure-api-application.helpers';
-import { TasksController } from '../tasks.controller';
-import { TasksService } from '../tasks.service';
+import { TasksController } from '../controllers/tasks.controller';
+import { TasksService } from '../services/tasks.service';
 
 describe('TasksController', () => {
   let app: INestApplication;

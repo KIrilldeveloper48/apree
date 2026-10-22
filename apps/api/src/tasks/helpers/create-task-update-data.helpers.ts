@@ -1,9 +1,9 @@
 import { BadRequestException } from '@nestjs/common';
 
-import type { Prisma } from '../generated/prisma/client';
+import type { Prisma } from '../../generated/prisma/client';
 
-import { UpdateTaskDto } from './dto/update-task.dto';
-import { normalizeTaskText } from './task-text.helpers';
+import { UpdateTaskDto } from '../schemas/update-task.dto';
+import { normalizeTaskText } from './normalize-task-text.helpers';
 
 export function createTaskUpdateData(input: UpdateTaskDto): Prisma.TaskUpdateInput {
   const data: Prisma.TaskUpdateInput = {};

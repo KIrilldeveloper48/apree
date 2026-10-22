@@ -1,6 +1,6 @@
-import type { TCreateTaskInput } from '../../../api/create-task-input.types';
-import type { TTask } from '../../../api/task.types';
-import type { TTaskStatus } from '../../../api/task-status.types';
+import type { TCreateTaskInput } from '../../../api/types/create-task-input.types';
+import type { TTask } from '../../../api/types/task.types';
+import type { TTaskStatus } from '../../../api/types/task-status.types';
 
 export function createTaskFormValues(
   task: TTask | null,

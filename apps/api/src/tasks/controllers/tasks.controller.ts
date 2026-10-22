@@ -12,10 +12,10 @@ import {
 } from '@nestjs/common';
 import { ApiNoContentResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
-import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
-import { TasksService } from './tasks.service';
+import { CreateTaskDto } from '../schemas/create-task.dto';
+import { UpdateTaskDto } from '../schemas/update-task.dto';
+import { UpdateTaskStatusDto } from '../schemas/update-task-status.dto';
+import { TasksService } from '../services/tasks.service';
 
 @ApiTags('tasks')
 @Controller('tasks')

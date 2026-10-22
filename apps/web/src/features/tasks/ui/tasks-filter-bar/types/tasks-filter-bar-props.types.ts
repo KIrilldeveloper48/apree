@@ -1,4 +1,4 @@
-import type { TTaskPriority } from '../../../api/task-priority.types';
+import type { TTaskPriority } from '../../../api/types/task-priority.types';
 
 export interface ITasksFilterBarProps {
   readonly isFiltering: boolean;

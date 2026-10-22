@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { normalizeTaskText } from '../task-text.helpers';
+import { normalizeTaskText } from '../helpers/normalize-task-text.helpers';
 
 describe('normalizeTaskText', () => {
   it('trims surrounding whitespace', () => {

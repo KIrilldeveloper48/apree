@@ -1,13 +1,13 @@
-import { createTaskInputSchema } from './create-task-input.schema';
-import type { TCreateTaskInput } from './create-task-input.types';
-import { requestApi } from './request-api.helpers';
-import { taskIdSchema } from './task-id.schema';
-import { taskSchema, tasksSchema } from './task.schema';
-import type { TTask } from './task.types';
-import { updateTaskInputSchema } from './update-task-input.schema';
-import type { TUpdateTaskInput } from './update-task-input.types';
-import { updateTaskStatusInputSchema } from './update-task-status-input.schema';
-import type { TUpdateTaskStatusInput } from './update-task-status-input.types';
+import { requestApi } from '../helpers/request-api.helpers';
+import { createTaskInputSchema } from '../schemas/create-task-input.schema';
+import { taskIdSchema } from '../schemas/task-id.schema';
+import { taskSchema, tasksSchema } from '../schemas/task.schema';
+import { updateTaskInputSchema } from '../schemas/update-task-input.schema';
+import { updateTaskStatusInputSchema } from '../schemas/update-task-status-input.schema';
+import type { TCreateTaskInput } from '../types/create-task-input.types';
+import type { TTask } from '../types/task.types';
+import type { TUpdateTaskInput } from '../types/update-task-input.types';
+import type { TUpdateTaskStatusInput } from '../types/update-task-status-input.types';
 
 export async function listTasks(): Promise<readonly TTask[]> {
   return tasksSchema.parse(await requestApi('tasks'));

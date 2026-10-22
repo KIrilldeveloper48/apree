@@ -7,10 +7,10 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useMemo, useState } from 'react';
 
-import type { TCreateTaskInput } from '../../api/create-task-input.types';
-import type { TTask } from '../../api/task.types';
-import type { TTaskPriority } from '../../api/task-priority.types';
-import type { TTaskStatus } from '../../api/task-status.types';
+import type { TCreateTaskInput } from '../../api/types/create-task-input.types';
+import type { TTask } from '../../api/types/task.types';
+import type { TTaskPriority } from '../../api/types/task-priority.types';
+import type { TTaskStatus } from '../../api/types/task-status.types';
 import { filterTasks } from '../../model/filter-tasks.helpers';
 import { groupTasksByStatus } from '../../model/group-tasks-by-status.helpers';
 import { useTasks } from '../../model/use-tasks';

@@ -42,10 +42,21 @@
 ```text
 apps/
 ├── api/                         # NestJS API
-│   └── src/tasks/               # DTO, controller, service, helpers и core-тесты задач
+│   └── src/tasks/
+│       ├── constants/           # ограничения предметной области
+│       ├── controllers/         # HTTP-обработчики
+│       ├── helpers/             # чистые функции
+│       ├── schemas/             # DTO и runtime-валидация запросов
+│       ├── services/            # бизнес-логика и доступ к данным
+│       └── tests/               # core-проверки модуля
 └── web/                         # Next.js приложение
     └── src/features/tasks/
-        ├── api/                 # Zod-схемы, типы и REST-клиент
+        ├── api/
+        │   ├── errors/          # типизированные ошибки API
+        │   ├── helpers/         # общие функции HTTP-транспорта
+        │   ├── schemas/         # Zod-схемы runtime-валидации
+        │   ├── services/        # REST-операции с задачами
+        │   └── types/           # TypeScript-модели, выведенные из схем
         ├── model/               # hook состояния и чистая логика фильтрации/группировки
         ├── components/          # составные компоненты доски и диалогов
         └── ui/                  # небольшие UI-элементы и состояния

@@ -2,11 +2,17 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import type { TCreateTaskInput } from '../api/create-task-input.types';
-import type { TTask } from '../api/task.types';
-import { createTask, deleteTask, listTasks, updateTask, updateTaskStatus } from '../api/tasks-api';
-import type { TUpdateTaskInput } from '../api/update-task-input.types';
-import type { TUpdateTaskStatusInput } from '../api/update-task-status-input.types';
+import {
+  createTask,
+  deleteTask,
+  listTasks,
+  updateTask,
+  updateTaskStatus,
+} from '../api/services/tasks-api';
+import type { TCreateTaskInput } from '../api/types/create-task-input.types';
+import type { TTask } from '../api/types/task.types';
+import type { TUpdateTaskInput } from '../api/types/update-task-input.types';
+import type { TUpdateTaskStatusInput } from '../api/types/update-task-status-input.types';
 
 import { getErrorMessage } from './get-error-message.helpers';
 import { groupTasksByStatus } from './group-tasks-by-status.helpers';

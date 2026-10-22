@@ -6,7 +6,7 @@ import Select, { type SelectChangeEvent } from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 
-import { taskPrioritySchema } from '../../api/task-priority.schema';
+import { taskPrioritySchema } from '../../api/schemas/task-priority.schema';
 
 import type { ITasksFilterBarProps } from './types/tasks-filter-bar-props.types';
 

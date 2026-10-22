@@ -1,5 +1,5 @@
-import type { TTask } from '../api/task.types';
-import type { TTaskPriority } from '../api/task-priority.types';
+import type { TTask } from '../api/types/task.types';
+import type { TTaskPriority } from '../api/types/task-priority.types';
 
 export function filterTasks(
   tasks: readonly TTask[],

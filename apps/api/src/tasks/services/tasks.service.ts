@@ -1,13 +1,13 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 
-import { TaskStatus } from '../generated/prisma/enums';
-import { PrismaService } from '../prisma/prisma.service';
+import { TaskStatus } from '../../generated/prisma/enums';
+import { PrismaService } from '../../prisma/prisma.service';
 
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
-import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
-import { normalizeTaskText } from './task-text.helpers';
-import { createTaskUpdateData } from './task-update-data.helpers';
+import { createTaskUpdateData } from '../helpers/create-task-update-data.helpers';
+import { normalizeTaskText } from '../helpers/normalize-task-text.helpers';
+import { CreateTaskDto } from '../schemas/create-task.dto';
+import { UpdateTaskDto } from '../schemas/update-task.dto';
+import { UpdateTaskStatusDto } from '../schemas/update-task-status.dto';
 
 @Injectable()
 export class TasksService {

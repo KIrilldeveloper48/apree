@@ -2,8 +2,8 @@ import { BadRequestException } from '@nestjs/common';
 import { describe, expect, it } from 'vitest';
 
 import { TaskPriority } from '../../generated/prisma/enums';
-import { UpdateTaskDto } from '../dto/update-task.dto';
-import { createTaskUpdateData } from '../task-update-data.helpers';
+import { createTaskUpdateData } from '../helpers/create-task-update-data.helpers';
+import { UpdateTaskDto } from '../schemas/update-task.dto';
 
 describe('createTaskUpdateData', () => {
   it('normalizes changed text fields without changing omitted fields', () => {

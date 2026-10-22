@@ -1,7 +1,7 @@
-import type { TCreateTaskInput } from '../api/create-task-input.types';
-import type { TTask } from '../api/task.types';
-import type { TUpdateTaskInput } from '../api/update-task-input.types';
-import type { TUpdateTaskStatusInput } from '../api/update-task-status-input.types';
+import type { TCreateTaskInput } from '../api/types/create-task-input.types';
+import type { TTask } from '../api/types/task.types';
+import type { TUpdateTaskInput } from '../api/types/update-task-input.types';
+import type { TUpdateTaskStatusInput } from '../api/types/update-task-status-input.types';
 
 import type { TTasksByStatus } from './tasks-by-status.types';
 

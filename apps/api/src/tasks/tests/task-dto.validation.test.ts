@@ -2,7 +2,7 @@ import { validate } from 'class-validator';
 import { describe, expect, it } from 'vitest';
 
 import { TaskPriority } from '../../generated/prisma/enums';
-import { CreateTaskDto } from '../dto/create-task.dto';
+import { CreateTaskDto } from '../schemas/create-task.dto';
 
 describe('CreateTaskDto', () => {
   it('rejects whitespace-only title and missing priority', async () => {
