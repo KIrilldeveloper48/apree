@@ -1,7 +1,6 @@
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
+import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -14,28 +13,28 @@ export function TaskCard({ task, onOpenTask }: ITaskCardProps) {
 
   return (
     <Card component="article" variant="outlined">
-      <CardContent>
-        <Stack spacing={1.5}>
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }}
-          >
-            <Typography component="h3" variant="subtitle1">
-              {task.title}
+      <CardActionArea
+        aria-label={`Открыть задачу «${task.title}»`}
+        onClick={() => onOpenTask(task)}
+      >
+        <CardContent>
+          <Stack spacing={1.5}>
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{ alignItems: 'flex-start', justifyContent: 'space-between' }}
+            >
+              <Typography component="h3" variant="subtitle1">
+                {task.title}
+              </Typography>
+              <Chip color={priority.color} label={priority.label} size="small" />
+            </Stack>
+            <Typography color="text.secondary" variant="body2">
+              {task.description}
             </Typography>
-            <Chip color={priority.color} label={priority.label} size="small" />
           </Stack>
-          <Typography color="text.secondary" variant="body2">
-            {task.description}
-          </Typography>
-        </Stack>
-      </CardContent>
-      <CardActions>
-        <Button onClick={() => onOpenTask(task)} size="small" type="button">
-          Открыть
-        </Button>
-      </CardActions>
+        </CardContent>
+      </CardActionArea>
     </Card>
   );
 }

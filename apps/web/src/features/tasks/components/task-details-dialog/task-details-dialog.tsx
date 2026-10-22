@@ -4,13 +4,20 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { type SelectChangeEvent } from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
+import { taskStatusSchema } from '../../api/task-status.schema';
 import type { TTaskStatus } from '../../api/task-status.types';
 
 import { getTaskPriorityPresentation } from '../task-card/helpers/get-task-priority-presentation.helpers';
-import { getTaskStatusPresentation } from './helpers/get-task-status-presentation.helpers';
+import { getTaskCreatedAtLabel } from './helpers/get-task-created-at-label.helpers';
 import type { ITaskDetailsDialogProps } from './types/task-details-dialog-props.types';
 
 export function TaskDetailsDialog({
@@ -22,7 +29,7 @@ export function TaskDetailsDialog({
   onChangeStatus,
 }: ITaskDetailsDialogProps) {
   const priority = getTaskPriorityPresentation(task.priority);
-  const status = getTaskStatusPresentation(task.status);
+  const createdAtLabel = getTaskCreatedAtLabel(task.createdAt);
 
   async function handleChangeStatus(nextStatus: TTaskStatus): Promise<void> {
     try {
@@ -32,61 +39,70 @@ export function TaskDetailsDialog({
     }
   }
 
+  function handleStatusSelectChange(event: SelectChangeEvent): void {
+    const nextStatus = taskStatusSchema.safeParse(event.target.value);
+
+    if (!nextStatus.success) {
+      return;
+    }
+
+    void handleChangeStatus(nextStatus.data);
+  }
+
   return (
-    <Dialog fullWidth maxWidth="sm" onClose={onClose} open>
-      <DialogTitle>{task.title}</DialogTitle>
-      <DialogContent>
-        <Stack spacing={2}>
-          <Chip
-            color={priority.color}
-            label={`Приоритет: ${priority.label}`}
-            size="small"
-            sx={{ alignSelf: 'flex-start' }}
-          />
-          <Chip
-            color={status.color}
-            label={`Статус: ${status.label}`}
-            size="small"
-            sx={{ alignSelf: 'flex-start' }}
-          />
-          <Typography variant="body1">{task.description}</Typography>
+    <Dialog fullWidth maxWidth="md" onClose={onClose} open>
+      <DialogTitle component="div">
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={2}
+          sx={{ alignItems: { sm: 'flex-start' }, justifyContent: 'space-between' }}
+        >
           <Stack spacing={1}>
-            <Typography component="h2" variant="subtitle2">
-              Переместить задачу
+            <Typography component="h1" variant="h4">
+              {task.title}
             </Typography>
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
-              {task.status !== 'NEW' ? (
-                <Button
-                  disabled={isMutating}
-                  onClick={() => void handleChangeStatus('NEW')}
-                  size="small"
-                  type="button"
-                >
-                  В «Новая»
-                </Button>
-              ) : null}
-              {task.status !== 'IN_PROGRESS' ? (
-                <Button
-                  disabled={isMutating}
-                  onClick={() => void handleChangeStatus('IN_PROGRESS')}
-                  size="small"
-                  type="button"
-                >
-                  В «В работе»
-                </Button>
-              ) : null}
-              {task.status !== 'DONE' ? (
-                <Button
-                  disabled={isMutating}
-                  onClick={() => void handleChangeStatus('DONE')}
-                  size="small"
-                  type="button"
-                >
-                  В «Готово»
-                </Button>
-              ) : null}
-            </Stack>
+            <Chip
+              color={priority.color}
+              label={`Приоритет: ${priority.label}`}
+              size="small"
+              sx={{ alignSelf: 'flex-start' }}
+            />
           </Stack>
+          <FormControl size="small" sx={{ minWidth: 168 }}>
+            <InputLabel id="task-status-label">Статус</InputLabel>
+            <Select
+              disabled={isMutating}
+              label="Статус"
+              labelId="task-status-label"
+              onChange={handleStatusSelectChange}
+              value={task.status}
+            >
+              <MenuItem value="NEW">Новая</MenuItem>
+              <MenuItem value="IN_PROGRESS">В работе</MenuItem>
+              <MenuItem value="DONE">Готово</MenuItem>
+            </Select>
+          </FormControl>
+        </Stack>
+      </DialogTitle>
+      <DialogContent>
+        <Stack spacing={3}>
+          <Divider />
+          <Stack spacing={1.5}>
+            <Typography component="h2" variant="subtitle1">
+              Описание
+            </Typography>
+            <TextField
+              aria-label="Описание задачи"
+              fullWidth
+              multiline
+              minRows={5}
+              slotProps={{ input: { readOnly: true } }}
+              value={task.description}
+            />
+          </Stack>
+          <Typography color="text.secondary" variant="body2">
+            Создано {createdAtLabel}
+          </Typography>
         </Stack>
       </DialogContent>
       <DialogActions>
