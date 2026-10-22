@@ -4,7 +4,7 @@ import type { TRootLayoutProps } from './root-layout-props.types';
 
 export const metadata: Metadata = {
   title: 'Apree',
-  description: 'Доска задач'
+  description: 'Доска задач',
 };
 
 export default function RootLayout({ children }: TRootLayoutProps) {
