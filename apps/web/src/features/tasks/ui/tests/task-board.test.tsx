@@ -23,9 +23,13 @@ const tasksByStatus = {
   DONE: [],
 } satisfies TTasksByStatus;
 
+function handleOpenTask(): void {}
+
 describe('TaskBoard', () => {
   it('отображает три колонки и карточку задачи в её статусе', () => {
-    const markup = renderToStaticMarkup(createElement(TaskBoard, { tasksByStatus }));
+    const markup = renderToStaticMarkup(
+      createElement(TaskBoard, { onOpenTask: handleOpenTask, tasksByStatus }),
+    );
 
     expect(markup).toContain('Новая');
     expect(markup).toContain('В работе');

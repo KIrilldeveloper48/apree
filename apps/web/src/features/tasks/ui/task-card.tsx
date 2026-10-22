@@ -1,5 +1,7 @@
 import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -7,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import { getTaskPriorityPresentation } from './get-task-priority-presentation.helpers';
 import type { ITaskCardProps } from './task-card-props.types';
 
-export function TaskCard({ task }: ITaskCardProps) {
+export function TaskCard({ task, onOpenTask }: ITaskCardProps) {
   const priority = getTaskPriorityPresentation(task.priority);
 
   return (
@@ -29,6 +31,11 @@ export function TaskCard({ task }: ITaskCardProps) {
           </Typography>
         </Stack>
       </CardContent>
+      <CardActions>
+        <Button onClick={() => onOpenTask(task)} size="small" type="button">
+          Открыть
+        </Button>
+      </CardActions>
     </Card>
   );
 }

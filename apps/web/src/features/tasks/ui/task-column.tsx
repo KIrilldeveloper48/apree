@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import type { ITaskColumnProps } from './task-column-props.types';
 import { TaskCard } from './task-card';
 
-export function TaskColumn({ title, tasks }: ITaskColumnProps) {
+export function TaskColumn({ title, tasks, onOpenTask }: ITaskColumnProps) {
   const headingId = `task-column-${title}`;
 
   return (
@@ -31,7 +31,7 @@ export function TaskColumn({ title, tasks }: ITaskColumnProps) {
         </Stack>
         <Stack spacing={1.5}>
           {tasks.map((task) => (
-            <TaskCard key={task.id} task={task} />
+            <TaskCard key={task.id} onOpenTask={onOpenTask} task={task} />
           ))}
         </Stack>
       </Stack>
