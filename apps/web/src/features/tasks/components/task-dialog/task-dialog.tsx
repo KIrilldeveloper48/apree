@@ -157,10 +157,10 @@ export function TaskDialog({
           </FormControl>
           {!isEditing ? (
             <FormControl fullWidth required>
-              <InputLabel id="task-status-label">Колонка</InputLabel>
+              <InputLabel id="task-status-label">Статус</InputLabel>
               <Select
                 disabled={isSubmitting}
-                label="Колонка"
+                label="Статус"
                 labelId="task-status-label"
                 onChange={handleStatusChange}
                 value={values.status}
